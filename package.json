@@ -1,0 +1,38 @@
+{
+  "name": "mongo-koans",
+  "version": "1.0.0",
+  "description": "train mongoDb node.js driver",
+  "main": "index.js",
+  "scripts": {
+    "test": "run test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alanbo/mongo-koans.git"
+  },
+  "keywords": [
+    "mongoDB",
+    "node.js",
+    "koans",
+    "chai",
+    "mocha",
+    "quering",
+    "aggregation"
+  ],
+  "author": "alan bogusiewicz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alanbo/mongo-koans/issues"
+  },
+  "homepage": "https://github.com/alanbo/mongo-koans#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-mocha-test": "^0.12.7",
+    "mocha": "^2.3.4"
+  },
+  "dependencies": {
+    "mongodb": "^2.1.0"
+  }
+}
