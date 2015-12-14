@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
-	grunt.initConfig({
 
+	grunt.initConfig({
 
 		mochaTest: {
       test: {
@@ -10,21 +10,17 @@ module.exports = function(grunt) {
           //quiet: false, // Optionally suppress output to standard out (defaults to false)
           //clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false)
         },
-        src: ['tests/**/*.js']
+        src: ['tests/**/*.js', 'test.js']
       }
     },
-
 
 	  watch: {
 
 			mochaTest: {
-				files: ['routes/**/*.js','models/**/*.js','tests/**/*.js','*.js'],
+				files: ['answers/**/*.js','tests/**/*.js','test.js'],
 				tasks: ['mochaTest']
 			}
-
-
 	  }
-
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-watch');
