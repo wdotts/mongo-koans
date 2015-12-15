@@ -1,56 +1,39 @@
 var expect = require('chai').expect;
 var mongo = require('../mongo/index');
 var MongoClient = require('mongodb').MongoClient;
+var deasync = require('deasync');
+var mongo = deasync(MongoClient.connect);
 var URL_DATABASE = 'mongodb://localhost:27017/mongo-koans';
-var db;
+
+try{
+  db = mongo(URL_DATABASE);
+}
+catch(err){
+  console.log(err);
+}
 
 //https://docs.mongodb.org/v3.2/reference/operator/query/
-describe('Query and Projection Operators', function() {
+describe('Query Operator', function() {
 
-  var dbQP; // QueryAndProjection Collection
-
-  before('establish database connection', function(done){
-    MongoClient.connect(URL_DATABASE, function(err, database){
-      if (err) throw err;
-        db = database;
-        dbQP = db.collection('QueryAndProjection');
-        done();
-    });
-  });//establish database connection
-
-
-
-  describe('Comparison', function(){
+  //$eq operator
+  describe('$eq', function(){
 
     before('remove all sample data', function(done){
-      dbQP.remove({}, function(){ done() });
+
+      db.collection('eq').remove({}, function(){ done() });
+      
     });//remove all sample data
 
     before('set up sample collection', function(done) {
-      var bulk = [];
-      for ( var i = 0; i < 100; i++){
-        var user = {
-          "firstName" : "Master" + i,
-          "secondName" : "Mind" + i
-        }
-        bulk.push(user);
-      }
-      dbQP.insert(bulk, function(){ done(); });
+      var bulk = require('../dataSamples/eq.js');
+      db.collection('eq').insert(bulk, function(){ done(); });
     });//set up sample collection
 
-    it('can save a user without error', function(done){
+    var test = require('../answers/querying/eq.js');
+    test(db);
 
-      done();
-    });
+  });//$eq
 
 
-  });//Comparison
 
 });
-
-
-/*
-before('remove all sample data', function(done){
-  dbQP.remove({}, function(){ done() });
-});
-*/
