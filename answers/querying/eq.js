@@ -1,4 +1,4 @@
-//https://docs.mongodb.org/v3.0/reference/operator/query/eq/#op._S_eq
+//https://docs.mongodb.org/v3.0/reference/operator/query/eq/
 var expect = require('chai').expect;
 
 module.exports = function(db){

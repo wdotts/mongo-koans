@@ -29,7 +29,15 @@ describe('Query Operator', function() {
       done();
     });
 
-  });//remove all sample data
+  });//remove all sample $in data
+
+  before('remove all sample in data', function(done){
+
+    db.collection('or').remove({}, function(){
+      done();
+    });
+
+  });//remove all sample $or data
 
   before('set up sample eq collection', function(done) {
     var bulk = require('../dataSamples/eq.js');
@@ -39,6 +47,11 @@ describe('Query Operator', function() {
   before('set up sample in collection', function(done) {
     var bulk = require('../dataSamples/in.js');
     db.collection('in').insert(bulk, function(){ done(); });
+  });//set up sample collection
+
+  before('set up sample in collection', function(done) {
+    var bulk = require('../dataSamples/or.js');
+    db.collection('or').insert(bulk, function(){ done(); });
   });//set up sample collection
 
 
@@ -98,6 +111,13 @@ describe('Query Operator', function() {
   describe('$nin', function(){
 
     var test = require('../answers/querying/nin.js');
+    test(db);
+
+  });//$nin
+
+  describe('$or', function(){
+
+    var test = require('../answers/querying/logical/or.js');
     test(db);
 
   });//$nin
