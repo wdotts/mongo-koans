@@ -8,12 +8,9 @@ var bulk = [];
 //to eliminate uncertainty conntected to Math.random()
 
 bulk.push(
-  {
-    _id: 100,
-    name: 'product100',
-    quantity: 15,
-    price: 100
-  }
+  { _id: 100, name: 'product100', qty: 15, price: 100, sale: true },
+  { _id: 101, name: 'product100', qty: 15, price: 1.99, sale : true }, //$and, not equal 1.99
+  { _id: 102, name: 'product100', qty: 15, sale: true} //$and , does it exist?
 );
 
 for (var i = 0; i < 100; i++){
@@ -21,7 +18,7 @@ for (var i = 0; i < 100; i++){
     {
       _id: i,
       name: 'product' + i,
-      quantity: getRandomInt(),
+      qty: getRandomInt(),
       price: getRandomInt()
     }
   )

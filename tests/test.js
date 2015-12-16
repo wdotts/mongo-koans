@@ -11,7 +11,6 @@ catch(err){
   console.log(err);
 }
 
-
 //https://docs.mongodb.org/v3.2/reference/operator/query/
 describe('Query Operator', function() {
 
@@ -120,5 +119,26 @@ describe('Query Operator', function() {
     var test = require('../answers/querying/logical/or.js');
     test(db);
 
-  });//$nin
+  });//$or
+
+  describe('$and', function(){
+
+    var test = require('../answers/querying/logical/and.js');
+    test(db);
+
+  });//$and
+
+  describe('$not', function(){
+
+    var test = require('../answers/querying/logical/not.js');
+    test(db);
+
+  });//$not
+
+  describe('$nor', function(){
+
+    var test = require('../answers/querying/logical/nor.js');
+    test(db);
+
+  });//$not
 });

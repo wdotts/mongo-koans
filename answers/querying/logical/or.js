@@ -3,17 +3,16 @@ var expect = require('chai').expect;
 
 module.exports = function(db){
 
-
   describe('performs a logical OR operation', function() {
 
-    it('Is has quantity less than 20 or price equal 10', function(done){
-      var query = { $or: [ { quantity: { $lt: 20 } }, { price: 10 } ] };
+    it('Is has qty less than 20 or price equal 10', function(done){
+      var query = { $or: [ { qty: { $lt: 20 } }, { price: 10 } ] };
       var callback = function(err, data){
 
         expect(data[0]).to.exist;
         data.forEach(function(doc){
 
-          expect(doc).to.satisfy(function(obj) { return ((obj.quantity < 20) || (obj.price === 10)) });
+          expect(doc).to.satisfy(function(obj) { return ((obj.qty < 20) || (obj.price === 10)) });
 
         });
 
