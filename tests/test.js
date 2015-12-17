@@ -1,7 +1,8 @@
 var expect = require('chai').expect;
 var MongoClient = require('mongodb').MongoClient;
+var async = require('async');
 var deasync = require('deasync');
-var mongo = deasync(MongoClient.connect);
+var mongo = deasync(MongoClient.connect); //use mongo synchrously
 var URL_DATABASE = 'mongodb://localhost:27017/mongo-koans';
 
 try{
@@ -16,42 +17,34 @@ describe('Query Operator', function() {
 
   before('remove all sample eq data', function(done){
 
-    db.collection('eq').remove({}, function(){
-      done();
-    });
+    async.parallel([
+      function(callback){ db.collection('eq').remove({}, callback()); },
+      function(callback){ db.collection('in').remove({}, callback()); },
+      function(callback){ db.collection('or').remove({}, callback()); },
+      function(callback){ db.collection('records').remove({}, callback()); }
+    ], function(){ done() });
 
-  });//remove all sample eq data
 
-  before('remove all sample in data', function(done){
 
-    db.collection('in').remove({}, function(){
-      done();
-    });
-
-  });//remove all sample $in data
-
-  before('remove all sample in data', function(done){
-
-    db.collection('or').remove({}, function(){
-      done();
-    });
-
-  });//remove all sample $or data
+  });//remove all sample data
 
   before('set up sample eq collection', function(done) {
-    var bulk = require('../dataSamples/eq.js');
-    db.collection('eq').insert(bulk, function(){ done(); });
+    var _eq = require('../dataSamples/eq.js');
+    var _in = require('../dataSamples/in.js');
+    var _or = require('../dataSamples/or.js');
+    var _records = require('../dataSamples/records.js');
+
+    async.parallel([
+      function(callback){ db.collection('eq').insert(_eq, callback()); },
+      function(callback){ db.collection('in').insert(_in, callback()); },
+      function(callback){ db.collection('or').insert(_or, callback()); },
+      function(callback){ db.collection('records').insert(_records, callback()); }
+    ], function(){ done() });
+
+
   });//set up sample eq collection
 
-  before('set up sample in collection', function(done) {
-    var bulk = require('../dataSamples/in.js');
-    db.collection('in').insert(bulk, function(){ done(); });
-  });//set up sample collection
 
-  before('set up sample in collection', function(done) {
-    var bulk = require('../dataSamples/or.js');
-    db.collection('or').insert(bulk, function(){ done(); });
-  });//set up sample collection
 
 
   //$eq operator
