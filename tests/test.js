@@ -21,117 +21,86 @@ describe('Query Operator', function() {
       function(callback){ db.collection('eq').remove({}, callback()); },
       function(callback){ db.collection('in').remove({}, callback()); },
       function(callback){ db.collection('or').remove({}, callback()); },
-      function(callback){ db.collection('records').remove({}, callback()); }
+      function(callback){ db.collection('records').remove({}, callback()); },
+      function(callback){ db.collection('mod').remove({}, callback()); },
+      function(callback){ db.collection('text').drop( callback() ); },
+      function(callback){ db.collection('all').remove({}, callback()); },
+      function(callback){ db.collection('elemMatch').remove({}, callback()); },
+      function(callback){ db.collection('survey').remove({}, callback()); }
     ], function(){ done() });
 
 
 
   });//remove all sample data
 
-  before('set up sample eq collection', function(done) {
+  before('set up sample collections', function(done) {
     var _eq = require('../dataSamples/eq.js');
     var _in = require('../dataSamples/in.js');
     var _or = require('../dataSamples/or.js');
     var _records = require('../dataSamples/records.js');
+    var _mod = require('../dataSamples/mod.js');
+    var _regexp = require('../dataSamples/regexp.js');
+    var _text = require('../dataSamples/text.js');
+    var _all = require('../dataSamples/all.js');
+    var _elemMatch = require('../dataSamples/elemMatch.js');
+    var _survey = require('../dataSamples/survey.js');
+
 
     async.parallel([
       function(callback){ db.collection('eq').insert(_eq, callback()); },
       function(callback){ db.collection('in').insert(_in, callback()); },
       function(callback){ db.collection('or').insert(_or, callback()); },
-      function(callback){ db.collection('records').insert(_records, callback()); }
+      function(callback){ db.collection('records').insert(_records, callback()); },
+      function(callback){ db.collection('mod').insert(_mod, callback()); },
+      function(callback){ db.collection('regexp').insert(_regexp, callback()); },
+      function(callback){ db.collection('text').insert(_text, function(){
+        db.collection('text').createIndex({ "subject": "text" }, {}, function(){
+          callback();
+        } );
+      })},
+      function(callback){ db.collection('all').insert(_all, callback()); },
+      function(callback){ db.collection('elemMatch').insert(_elemMatch, callback()); },
+      function(callback){ db.collection('survey').insert(_survey, callback()); }
     ], function(){ done() });
-
 
   });//set up sample eq collection
 
+  var tests = [
+    { '$eq'     : '../answers/querying/comparison/eq.js' },
+    { '$gt'     : '../answers/querying/comparison/gt.js' },
+    { '$gte'    : '../answers/querying/comparison/gte.js' },
+    { '$lt'     : '../answers/querying/comparison/lt.js' },
+    { '$lte'    : '../answers/querying/comparison/lte.js' },
+    { '$ne'     : '../answers/querying/comparison/ne.js' },
+    { '$in'     : '../answers/querying/comparison/in.js' },
+    { '$nin'    : '../answers/querying/comparison/nin.js' },
+    { '$or'     : '../answers/querying/logical/or.js' },
+    { '$and'    : '../answers/querying/logical/and.js' },
+    { '$not'    : '../answers/querying/logical/not.js' },
+    { '$nor'    : '../answers/querying/logical/nor.js' },
+    { '$exists' : '../answers/querying/element/exists.js' },
+    { '$type'   : '../answers/querying/element/type.js' },
+    { '$mod'    : '../answers/querying/evaluation/mod.js' },
+    { '$regexp' : '../answers/querying/evaluation/regexp.js' },
+    { '$text'   : '../answers/querying/evaluation/text.js' },
+    { '$all'    : '../answers/querying/array/all.js' },
+    { '$elemMatch'    : '../answers/querying/array/elemMatch.js' },
+    { '$size'    : '../answers/querying/array/size.js' }
+  ];
+
+  tests.forEach(function(element, index){
+    var key = Object.keys(element);
+    var desc = key[0];
+    var path = element[desc];
+
+    describe( desc , function(){
+
+      var test = require( path );
+      test(db);
+
+    });//$eq
+  } );
 
 
 
-  //$eq operator
-  describe('$eq', function(){
-
-    var test = require('../answers/querying/eq.js');
-    test(db);
-
-  });//$eq
-
-  //$gt operator
-  describe('$gt', function(){
-
-    var test = require('../answers/querying/gt.js');
-    test(db);
-
-  });//$gt
-
-  //$gte operator
-  describe('$gte', function(){
-
-    var test = require('../answers/querying/gte.js');
-    test(db);
-
-  });//$gte
-
-  //$lt operator
-  describe('$lt', function(){
-
-    var test = require('../answers/querying/lt.js');
-    test(db);
-
-  });//$lt
-
-  describe('$lte', function(){
-
-    var test = require('../answers/querying/lte.js');
-    test(db);
-
-  });//$lte
-
-  describe('$ne', function(){
-
-    var test = require('../answers/querying/ne.js');
-    test(db);
-
-  });//$ne
-
-  describe('$in', function(){
-
-    var test = require('../answers/querying/in.js');
-    test(db);
-
-  });//$in
-
-  describe('$nin', function(){
-
-    var test = require('../answers/querying/nin.js');
-    test(db);
-
-  });//$nin
-
-  describe('$or', function(){
-
-    var test = require('../answers/querying/logical/or.js');
-    test(db);
-
-  });//$or
-
-  describe('$and', function(){
-
-    var test = require('../answers/querying/logical/and.js');
-    test(db);
-
-  });//$and
-
-  describe('$not', function(){
-
-    var test = require('../answers/querying/logical/not.js');
-    test(db);
-
-  });//$not
-
-  describe('$nor', function(){
-
-    var test = require('../answers/querying/logical/nor.js');
-    test(db);
-
-  });//$not
 });
