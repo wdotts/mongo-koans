@@ -7,6 +7,7 @@ var bulk = [];
 //at least on object that fulfils the $or exercise criteria
 //to eliminate uncertainty conntected to Math.random()
 
+
 bulk.push(
   { _id: 100, name: 'product100', qty: 15, price: 100, sale: true },
   { _id: 101, name: 'product100', qty: 15, price: 1.99, sale : true }, //$and, not equal 1.99

@@ -39,8 +39,7 @@ module.exports = function(db){
         expect(data[0]).to.exist;
         data.forEach(function(doc){
 
-          expect(doc.a).to.exist;
-
+          expect(doc).to.have.property('a');
 
         });
 

@@ -11,6 +11,7 @@ module.exports = function(db){
       var callback = function(err, data){
 
         expect(data[0]).to.exist;
+
         data.forEach(function(doc){
 
           expect(doc.price).to.exist;
